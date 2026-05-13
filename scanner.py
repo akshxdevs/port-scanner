@@ -17,12 +17,12 @@ def scan(args, port_range):
         status = scan_port(args.target, port)
         with lock:
             results[port] = status
-            if status == "open":
-                print(f"[OPEN]  port {port}")
-            elif status == "timeout":
-                print(f"[TIMEOUT]  port {port}")
-            else:
-                print(f"[CLOSED] port {port}")
+        if status == "open":
+            print(f"[OPEN]  port {port}")
+        elif status == "timeout":
+            print(f"[TIMEOUT]  port {port}")
+        else:
+            print(f"[CLOSED] port {port}")
 
     with ThreadPoolExecutor(max_workers=args.threads) as executor:
         executor.map(worker, port_range)
