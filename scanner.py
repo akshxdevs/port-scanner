@@ -2,6 +2,8 @@ import socket
 import threading
 from concurrent.futures import ThreadPoolExecutor
 
+timeout = 10.0
+
 
 def scan(args, port_range):
     print(f"target: {args.target}")
@@ -29,7 +31,6 @@ def scan(args, port_range):
 
 
 def scan_port(target, port):
-    timeout = 10
     try:
         s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         s.settimeout(timeout)
