@@ -1,5 +1,6 @@
 import argparse
 
+from output import save_report
 from scanner import scan
 
 
@@ -27,7 +28,16 @@ def get_args():
         default=100,
         help="number of threads: (default:100)",
     )
-
+    parser.add_argument(
+        "--output", "-o", help="filepath to save the report (eg:/home/xx/xx/xxx)"
+    )
+    parser.add_argument(
+        "--format",
+        "-f",
+        choices=["json", "csv"],
+        default="json",
+        help="format type json or csv",
+    )
     args = parser.parse_args()
 
     if args.start_port < 0 or args.end_port > 65535:
@@ -48,4 +58,7 @@ def get_args():
 
 if __name__ == "__main__":
     args, port_range = get_args()
-    scan(args, port_range)
+    results = scan(args, port_range)
+
+    if args.output:
+        save_report(results, args.target, args.output, args.format)
